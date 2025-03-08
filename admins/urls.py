@@ -1,9 +1,12 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import SuperAdminViewSet, AdminViewSet, GroupViewSet
 
-from admins.views import test_view
-
-app_name = 'admins'
+router = DefaultRouter()
+router.register(r'superadmins', SuperAdminViewSet)
+router.register(r'admins', AdminViewSet)
+router.register(r'groups', GroupViewSet)
 
 urlpatterns = [
-    path('admin/', test_view, name='admin'),
+    path('', include(router.urls)),
 ]

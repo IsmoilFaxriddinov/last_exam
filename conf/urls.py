@@ -21,6 +21,12 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
+from admins.views import AdminViewSet, GroupViewSet, SuperAdminViewSet
+from students.views import StudentViewSet
+from teachers.views import HomeworkViewSet, TeacherViewSet
+from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -36,16 +42,27 @@ schema_view = get_schema_view(
     authentication_classes=[(JWTAuthentication,)],
 )
 
+from django.urls import path, include
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("admins/", include('admins.urls'), name="admins"),
-    # path("teachers/", include('teachers.urls'), name="teachers"),
-    # path("students/", include('students.urls'), name="students"),
+    path('admins/', include('admins.urls')),
+    path('students/', include('students.urls')),
+    path('teachers/', include('teachers.urls')),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
+router = DefaultRouter()
+router.register(r'superadmins', SuperAdminViewSet)
+router.register(r'admins', AdminViewSet)
+router.register(r'groups', GroupViewSet)
+router.register(r'students', StudentViewSet)
+router.register(r'teachers', TeacherViewSet)
+router.register(r'homeworks', HomeworkViewSet)
+
 urlpatterns += [
-   path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-   path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-   path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('', include(router.urls)),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
