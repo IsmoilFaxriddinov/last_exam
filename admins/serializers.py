@@ -37,6 +37,7 @@ class AdminSerializer(serializers.ModelSerializer):
         user = UserSerializer().create(user_data)
         admin = AdminModel.objects.create(user=user, **validated_data)
         return admin
+    
 class GroupSerializer(serializers.ModelSerializer):
     admin = AdminSerializer(read_only=True)
     teachers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
