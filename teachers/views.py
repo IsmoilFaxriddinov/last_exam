@@ -19,8 +19,15 @@ class TeacherViewSet(viewsets.ModelViewSet):
 
 class HomeworkViewSet(viewsets.ModelViewSet):
     queryset = HomeworkModel.objects.all()
-    serializer_class = HomeworkSerializer
+    serializer_class = HomeworkSerializer   
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(teacher=self.request.user.teachermodel)
+        try:
+            teacher = self.request.user.teachermodel
+        except TeacherModel.DoesNotExist:
+            teacher = TeacherModel.objects.create(
+                user=self.request.user,
+                name=self.request.user.username
+            )
+        serializer.save(teacher=teacher)

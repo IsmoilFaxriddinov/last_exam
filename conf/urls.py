@@ -22,7 +22,8 @@ from drf_yasg import openapi
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from admins.views import AdminViewSet, GroupViewSet, SuperAdminViewSet
-from students.views import StudentViewSet
+from conf import settings
+from students.views import SubmissionViewSet, StudentViewSet
 from teachers.views import HomeworkViewSet, TeacherViewSet
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -44,6 +45,7 @@ schema_view = get_schema_view(
 
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admins/', include('admins.urls')),
@@ -66,3 +68,6 @@ urlpatterns += [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
