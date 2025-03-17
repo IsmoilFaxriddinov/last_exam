@@ -15,7 +15,7 @@ class SubmissionModel(models.Model):
     homework = models.ForeignKey(HomeworkModel, on_delete=models.CASCADE)
     student = models.ForeignKey(StudentModel, on_delete=models.CASCADE)
     content = models.TextField()
-    submitted_at = models.DateTimeField(auto_now_add=True)
+    submitted_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     file = models.FileField(upload_to='submissions/', null=True, blank=True)
 
     def __str__(self):
