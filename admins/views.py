@@ -27,6 +27,7 @@ class AdminViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save()
+        
     @action(detail=False, methods=['post'], permission_classes=[permissions.AllowAny])
     def register(self, request):
         serializer = self.get_serializer(data=request.data)
