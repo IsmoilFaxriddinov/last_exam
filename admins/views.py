@@ -49,7 +49,5 @@ class GroupViewSet(viewsets.ModelViewSet):
         if not admin:
             return Response({"error": "User is not associated with an AdminModel"},status=status.HTTP_403_FORBIDDEN)
         group = serializer.save(admin=admin)
-        return Response(
-            {"success": True, "message": "Group created successfully!", "group_id": group.id, "group_name": group.name,},status=status.HTTP_201_CREATED
-        )
+        return Response({"success": True, "message": "Group created successfully!", "group_id": group.id, "group_name": group.name,},status=status.HTTP_201_CREATED)
 
