@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 
 from admins.models import AdminModel, GroupModel, SuperAdminModel
+from students.models import StudentModel
+from teachers.models import TeacherModel
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,8 +42,8 @@ class AdminSerializer(serializers.ModelSerializer):
     
 class GroupSerializer(serializers.ModelSerializer):
     admin = AdminSerializer(read_only=True)
-    teachers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    students = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    teachers = serializers.PrimaryKeyRelatedField(many=True, queryset=TeacherModel.objects.all())
+    students = serializers.PrimaryKeyRelatedField(many=True, queryset=StudentModel.objects.all())
 
     class Meta:
         model = GroupModel

@@ -42,12 +42,8 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        print("Authenticated User:", self.request.user)
-        print("Is Authenticated:", self.request.user.is_authenticated)
-        
         admin = AdminModel.objects.filter(user=self.request.user).first()
         if not admin:
-            return Response({"error": "User is not associated with an AdminModel"},status=status.HTTP_403_FORBIDDEN)
+            return Response({"error": "User is not associated with an AdminModel"}, status=status.HTTP_403_FORBIDDEN)
         group = serializer.save(admin=admin)
-        return Response({"success": True, "message": "Group created successfully!", "group_id": group.id, "group_name": group.name,},status=status.HTTP_201_CREATED)
-
+        return group
