@@ -44,6 +44,6 @@ class GroupViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         admin = AdminModel.objects.filter(user=self.request.user).first()
         if not admin:
-            return Response({"error": "User is not associated with an AdminModel"}, status=status.HTTP_403_FORBIDDEN)
+            return Response("Error", status=status.HTTP_403_FORBIDDEN)
         group = serializer.save(admin=admin)
         return group
