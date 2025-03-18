@@ -1,5 +1,4 @@
 from django.urls import path, include
-from dotenv import load_dotenv
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from admins.views import SuperAdminViewSet, AdminViewSet, GroupViewSet

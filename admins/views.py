@@ -1,8 +1,8 @@
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import SuperAdminModel, AdminModel, GroupModel
-from .serializers import SuperAdminSerializer, AdminSerializer, GroupSerializer
+from admins.models import SuperAdminModel, AdminModel, GroupModel
+from admins.serializers import SuperAdminSerializer, AdminSerializer, GroupSerializer
 from rest_framework import status
 
 class SuperAdminViewSet(viewsets.ModelViewSet):
